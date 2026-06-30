@@ -173,7 +173,7 @@ function Products() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                {categoryName}
+                <span className="text-green-500">{categoryName}</span>
               </h1>
               <p className="product-count">
                 {products.length} product{products.length !== 1 ? "s" : ""} available

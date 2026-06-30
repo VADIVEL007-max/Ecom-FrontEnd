@@ -155,7 +155,7 @@ const total = subtotal + tax;
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-5 lg:px-4">
 
         {/* Header */}
-        <div className="cart-header mb-6 sm:mb-8">
+        <div className="cart-header  mb-6 sm:mb-8">
           <Link
             to="/products"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base transition-colors"
@@ -166,7 +166,7 @@ const total = subtotal + tax;
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-3 sm:mt-4 flex items-center gap-2 sm:gap-3">
             <ShoppingCart size={24} className="sm:w-8 sm:h-8 text-green-600" />
-            Shopping Cart
+            Shopping <span className="text-green-500">Cart</span>
           </h1>
 
           <p className="text-gray-500 mt-1 sm:mt-2 text-sm sm:text-base">
