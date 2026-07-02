@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Heart, ShoppingCart, Star, Zap, ImageOff } from "lucide-react";
 import { addToCart } from "../services/cartService";
+
+
 
 function ProductCard({ product }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -30,8 +32,38 @@ function ProductCard({ product }) {
   //   setTimeout(() => setShowNotification(false), 2000);
   //   setTimeout(() => setIsAddedToCart(false), 600);
   // };
+// const handleAddToCart = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     await addToCart({
+//       productId: product.id,
+//       quantity: 1,
+//     });
+
+//     setIsAddedToCart(true);
+//     setShowNotification(true);
+
+//     setTimeout(() => setShowNotification(false), 2000);
+//     setTimeout(() => setIsAddedToCart(false), 600);
+
+//   } catch (error) {
+//     console.log(error);
+//     alert("Failed to add product to cart");
+//   }
+// };
+
+
+const navigate = useNavigate();
 const handleAddToCart = async (e) => {
   e.preventDefault();
+
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    navigate("/login");
+    return;
+  }
 
   try {
     await addToCart({
@@ -47,9 +79,9 @@ const handleAddToCart = async (e) => {
 
   } catch (error) {
     console.log(error);
-    alert("Failed to add product to cart");
   }
 };
+
 
   const handleImageLoad = () => {
     setImageLoaded(true);
