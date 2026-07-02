@@ -25,12 +25,14 @@ const fetchCart = async () => {
     console.log(error);
   }
 };
-
+// calcluation in cart list
 const subtotal = cartItems.reduce(
   (total, item) => total + item.product.price * item.quantity,
   0
 );
 const tax = subtotal * 0.1;
+
+const total = subtotal + tax;
 //  handle updated quantity
 const handleIncrease = async (item) => {
   try {
@@ -59,7 +61,7 @@ const handleDecrease = async (item) => {
     console.log(error);
   }
 };
-
+// handle remove the product
 const handleRemove = async (item) => {
   try {
     await deleteCart(item.id);
@@ -69,7 +71,7 @@ const handleRemove = async (item) => {
   }
 };
 
-const total = subtotal + tax;
+
 
   return (
     <div className="min-h-screen bg-gray-100 pt-20 sm:pt-24 pb-8 sm:pb-10">
