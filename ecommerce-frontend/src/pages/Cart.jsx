@@ -191,7 +191,7 @@ const handleRemove = async (item) => {
                   <div className="flex gap-3 sm:gap-4 md:gap-5">
 
                     {/* Product Image */}
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <img
                         src={item.product.image}
                         alt={item.product.title}
