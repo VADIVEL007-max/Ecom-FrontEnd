@@ -22,9 +22,11 @@ function Profile() {
     const [openModal, setOpenModal] = useState(false);
 
     const [user, setUser] = useState(null);
+    
 // State to manage whether the form is in edit mode
     const [isEditing, setIsEditing] = useState(false);
     const [editingId, setEditingId] = useState(null);
+
     // Form data state
     const [formData, setFormData] = useState({
         fullName: "",
@@ -34,6 +36,7 @@ function Profile() {
         state: "",
         pincode: "",
       });
+
 // Function to handle the edit button click
  const handleEdit = (address) => {
 
@@ -53,6 +56,7 @@ function Profile() {
     setOpenModal(true);
 
 };
+
 // Function to handle the delete button click
 const handleDelete = async (id) => {
 
@@ -63,7 +67,7 @@ const handleDelete = async (id) => {
 
     fetchAddresses();
   } catch (error) {
-    console.log(error.response?.data);
+    toast.error("Error deleting address. Please try again.");
   }
 };
 
@@ -95,6 +99,13 @@ const fetchAddresses = async () => {
     console.log(error);
   }
 };
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
 // Show loading state while fetching user profile
 if (!user) {
@@ -328,7 +339,7 @@ if (!user) {
 
         <div className="mt-8">
 
-          <button className="flex items-center gap-3 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold">
+          <button  onClick={handleLogout} className="flex items-center gap-3 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold">
 
             <LogOut size={20} />
 
