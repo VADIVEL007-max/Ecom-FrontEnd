@@ -7,6 +7,8 @@ import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Checkout from "../pages/Checkout";
+import Orders from "../pages/Orders";
 
 
 
@@ -40,7 +42,18 @@ const router = createBrowserRouter([
       {
          path: "/register",
         element: <Register/> 
-      }
+      },
+      {
+   path: "/checkout",
+   element: (
+      <ProtectedRoute>
+         <Checkout/>
+      </ProtectedRoute>)
+      },
+      {
+         path: "/orders",
+        element: <Orders/> 
+      },
     ],
   },
 ]);
