@@ -4,12 +4,50 @@ import { placeOrder } from "../services/orderService";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCart } from "../services/cartService";
+import AddressCard from "../components/AddressCard";
+import { getAddresses } from "../services/addressService";
+import AddressModal from "../components/AddressModal";
+import AddressForm from "../components/AddressForm";
+
 
 
 function Checkout() {
+  // State to manage whether the form is in edit mode
+  const [isEditing, setIsEditing] = useState(false);
+const [editingId, setEditingId] = useState(null);
+// Form data state
+const [formData, setFormData] = useState({
+  fullName: "",
+  phone: "",
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+});
 
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
+// State to manage addresses
+  const [addresses, setAddresses] = useState([]);
+
+const [selectedAddress, setSelectedAddress] = useState(null);
+
+const [openModal, setOpenModal] = useState(false);
+
+// Function to fetch addresses from the backend
+const fetchAddresses = async () => {
+  try {
+    const response = await getAddresses();
+
+    setAddresses(response.data.data);
+
+    if (response.data.data.length > 0) {
+      setSelectedAddress(response.data.data[0]);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
   // place an order in db
 const handlePlaceOrder = async () => {
   try {
@@ -24,9 +62,28 @@ const handlePlaceOrder = async () => {
     alert("Failed to place order");
   }
 };
+// Function to handle the edit button click 
+
+const handleEdit = (address) => {
+  setIsEditing(true);
+
+  setEditingId(address.id);
+
+  setFormData({
+    fullName: address.fullName,
+    phone: address.phone,
+    address: address.address,
+    city: address.city,
+    state: address.state,
+    pincode: address.pincode,
+  });
+
+  setOpenModal(true);
+};
 // on page load fetch cart items from db
 useEffect(() => {
   fetchCart();
+  fetchAddresses();
 }, []);
 
 const fetchCart = async () => {
@@ -148,55 +205,38 @@ const total = subtotal + tax + shipping;
 
             </div>
 
-            {/* Delivery Address */}
-            <div className="bg-white rounded-2xl shadow p-6">
+           <div className="flex justify-between items-center mb-6">
 
-              <h2 className="text-2xl font-bold flex items-center gap-2 mb-6">
-                <MapPin className="text-green-600" />
-                Delivery Address
-              </h2>
+                <h2 className="text-2xl font-bold">
 
-              <div className="grid md:grid-cols-2 gap-4">
+                    Delivery Address
 
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  className="border rounded-xl p-3 outline-none focus:border-green-500"
-                />
+                </h2>
 
-                <input
-                  type="text"
-                  placeholder="Phone Number"
-                  className="border rounded-xl p-3 outline-none focus:border-green-500"
-                />
-
-                <textarea
-                  rows="4"
-                  placeholder="Address"
-                  className="md:col-span-2 border rounded-xl p-3 outline-none focus:border-green-500 resize-none"
-                />
-
-                <input
-                  type="text"
-                  placeholder="City"
-                  className="border rounded-xl p-3 outline-none focus:border-green-500"
-                />
-
-                <input
-                  type="text"
-                  placeholder="State"
-                  className="border rounded-xl p-3 outline-none focus:border-green-500"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Pincode"
-                  className="border rounded-xl p-3 outline-none focus:border-green-500"
-                />
-
-              </div>
+                <button
+                    onClick={() => setOpenModal(true)}
+                    className="bg-green-600 text-white px-5 py-2 rounded-xl"
+                >
+                    + Add New Address
+                </button>
 
             </div>
+
+      <div className="space-y-4">
+
+          {addresses.map((address) => (
+
+              <AddressCard
+                  key={address.id}
+                  address={address}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
+                  onEdit={handleEdit}
+              />
+
+          ))}
+
+      </div>
 
             {/* Payment */}
             <div className="bg-white rounded-2xl shadow p-6">
@@ -228,6 +268,21 @@ const total = subtotal + tax + shipping;
             </div>
 
           </div>
+          <AddressModal
+                  isOpen={openModal}
+                  onClose={() => setOpenModal(false)}
+                >
+                  <AddressForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    fetchAddresses={fetchAddresses}
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
+                    editingId={editingId}
+                    setEditingId={setEditingId}
+                    onClose={() => setOpenModal(false)}
+                  />
+                </AddressModal>
 
           {/* Right Section */}
           <div>
