@@ -56,7 +56,7 @@ const fetchOrders = async () => {
             className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
         >
             {/* Order Header */}
-            <div className="bg-green-600 text-white p-5 flex flex-col md:flex-row md:justify-between gap-4">
+            {/* <div className="bg-green-600 text-white p-5 flex flex-col md:flex-row md:justify-between gap-4">
 
             <div>
                 <p className="text-sm opacity-80">Order ID</p>
@@ -86,7 +86,7 @@ const fetchOrders = async () => {
                 </span>
             </div>
 
-            </div>
+            </div> */}
 
             {/* Products */}
             <div className="p-6 space-y-5">
