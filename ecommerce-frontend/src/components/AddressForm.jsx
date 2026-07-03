@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { addAddress } from "../services/addressService";
-
-function AddressForm({ fetchAddresses }) {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-  });
+import {
+  addAddress,
+  updateAddress,
+} from "../services/addressService";
+import toast from "react-hot-toast";
+// AddressForm component to handle adding and editing addresses
+function AddressForm({
+    formData,
+    setFormData,
+    fetchAddresses,
+    isEditing,
+    setIsEditing,
+    editingId,
+    setEditingId,
+    onClose
+}) {
 
   const handleChange = (e) => {
     setFormData({
@@ -17,36 +22,52 @@ function AddressForm({ fetchAddresses }) {
       [e.target.name]: e.target.value,
     });
   };
+// Function to handle form submission for adding or updating an address
+        const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        try {
 
-    try {
-      await addAddress(formData);
+            if (isEditing) {
 
-      alert("Address Added Successfully");
+            await updateAddress(editingId, formData);
 
-      setFormData({
-        fullName: "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-        pincode: "",
-      });
+            toast.success("Address Updated Successfully");
 
-      fetchAddresses();
+            setIsEditing(false);
+            setEditingId(null);
 
-    } catch (error) {
-      console.log(error.response?.data);
-    }
-  };
+            } else {
+
+            await addAddress(formData);
+
+            // alert("Address Added Successfully");
+            toast.success("Address Added Successfully");
+
+            }
+
+            setFormData({
+            fullName: "",
+            phone: "",
+            address: "",
+            city: "",
+            state: "",
+            pincode: "",
+            });
+
+            fetchAddresses();
+            onClose();
+
+        } catch (error) {
+            console.log(error.response?.data);
+        }
+};
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 mt-8">
 
       <h2 className="text-2xl font-bold mb-6">
-        Add Address
+        {isEditing ? "Edit Address" : "Add New Address"}
       </h2>
 
       <form

@@ -1,7 +1,8 @@
 import { User, Mail, Calendar, LogOut, MapPin,ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getProfile } from "../services/profileService";
+import { getProfile} from "../services/profileService";
 import { useNavigate } from "react-router-dom";
+
 
 
 import {
@@ -11,13 +12,60 @@ import {
   deleteAddress,
 } from "../services/addressService";
 import AddressForm from "../components/AddressForm";
+import AddressModal from "../components/AddressModal";
+import toast from "react-hot-toast";
 
 function Profile() {
   const navigate = useNavigate();
     
     const [addresses, setAddresses] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     const [user, setUser] = useState(null);
+// State to manage whether the form is in edit mode
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingId, setEditingId] = useState(null);
+    // Form data state
+    const [formData, setFormData] = useState({
+        fullName: "",
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+        pincode: "",
+      });
+// Function to handle the edit button click
+ const handleEdit = (address) => {
+
+    setIsEditing(true);
+
+    setEditingId(address.id);
+
+    setFormData({
+        fullName:address.fullName,
+        phone:address.phone,
+        address:address.address,
+        city:address.city,
+        state:address.state,
+        pincode:address.pincode,
+    });
+
+    setOpenModal(true);
+
+};
+// Function to handle the delete button click
+const handleDelete = async (id) => {
+
+  try {
+    await deleteAddress(id);
+
+    toast.success("Address Deleted Successfully");
+
+    fetchAddresses();
+  } catch (error) {
+    console.log(error.response?.data);
+  }
+};
 
 useEffect(() => {
     fetchProfile();
@@ -147,9 +195,7 @@ if (!user) {
           </div>
 
         </div>
-        {/* Add Address Form */}
-
-      <AddressForm fetchAddresses={fetchAddresses} />
+       
 
 
        {/* Address */}
@@ -163,8 +209,24 @@ if (!user) {
             Saved Addresses
             </h2>
 
-            <button className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-            + Add Address
+            <button
+                onClick={() => {
+                    setIsEditing(false);
+
+                    setFormData({
+                        fullName:"",
+                        phone:"",
+                        address:"",
+                        city:"",
+                        state:"",
+                        pincode:"",
+                    });
+
+                    setOpenModal(true);
+                }}
+                className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl"
+            >
+                + Add Address
             </button>
 
         </div>
@@ -220,14 +282,19 @@ if (!user) {
 
                 <div className="flex gap-3">
 
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                   <button
+                    onClick={() => handleEdit(address)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  >
                     Edit
-                    </button>
+                  </button>
 
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
-                    Delete
+                    <button
+                      onClick={() => handleDelete(address.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                    >
+                      Delete
                     </button>
-
                 </div>
 
                 </div>
@@ -239,6 +306,23 @@ if (!user) {
         )}
 
         </div>
+        <AddressModal
+            isOpen={openModal}
+            onClose={() => setOpenModal(false)}
+        >
+
+            <AddressForm
+                formData={formData}
+                setFormData={setFormData}
+                fetchAddresses={fetchAddresses}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                editingId={editingId}
+                setEditingId={setEditingId}
+                onClose={() => setOpenModal(false)}
+            />
+
+        </AddressModal>
 
         {/* Logout */}
 
