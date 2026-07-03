@@ -10,6 +10,7 @@ import {
   updateAddress,
   deleteAddress,
 } from "../services/addressService";
+import AddressForm from "../components/AddressForm";
 
 function Profile() {
   const navigate = useNavigate();
@@ -146,6 +147,10 @@ if (!user) {
           </div>
 
         </div>
+        {/* Add Address Form */}
+
+      <AddressForm fetchAddresses={fetchAddresses} />
+
 
        {/* Address */}
 
