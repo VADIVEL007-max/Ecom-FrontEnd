@@ -296,9 +296,12 @@ const handleRemove = async (item) => {
                   </span>
                 </div>
 
-                <button className="checkout-btn w-full bg-green-600 hover:bg-green-700 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-sm sm:text-base transition-colors">
+                <Link
+                  to="/checkout"
+                  className="checkout-btn w-full m-2 bg-green-600 hover:bg-green-700 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-sm sm:text-base transition-colors"
+                >
                   Proceed To Checkout
-                </button>
+                </Link>
 
               </div>
             </div>
