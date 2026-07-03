@@ -9,6 +9,7 @@ import Register from "../pages/auth/Register";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Checkout from "../pages/Checkout";
 import Orders from "../pages/Orders";
+import OrderDetails from "../pages/OrderDetails";
 
 
 
@@ -53,6 +54,13 @@ const router = createBrowserRouter([
       {
          path: "/orders",
         element: <Orders/> 
+      },
+      {
+         path: "/ordersDetails/:id",
+          element:  (
+            <ProtectedRoute>
+              <OrderDetails/>
+            </ProtectedRoute>) 
       },
     ],
   },
