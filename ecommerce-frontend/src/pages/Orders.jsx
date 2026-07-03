@@ -149,10 +149,11 @@ const fetchOrders = async () => {
             {/* Footer */}
             <div className="border-t p-5 flex justify-end">
 
-            <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+            <Link to={`/ordersDetails/${order.id}`}>
+              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition">
                 View Details
-            </button>
-
+              </button>
+            </Link>
             </div>
 
         </div>
