@@ -59,7 +59,7 @@ function AddressForm({
             onClose();
 
         } catch (error) {
-            console.log(error.response?.data);
+            toast.error("Error saving address. Please try again.");
         }
 };
 
