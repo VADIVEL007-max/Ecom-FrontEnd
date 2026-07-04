@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getOrders } from "../services/orderService";
+import OrdersSkeleton from "../components/skeleton/ordersSkeleton";
 
 function Orders() {
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
   fetchOrders();
@@ -12,14 +14,25 @@ function Orders() {
 
 const fetchOrders = async () => {
   try {
+    setLoading(true); // Reset loading state before fetching new data
     const response = await getOrders();
 
     setOrders(response.data.data);
+    setLoading(false); // Set loading state to false after fetching data
 
   } catch (error) {
     console.log(error);
   }
+  finally {
+    setLoading(false);
+  }
 };
+
+if (loading) {
+  return (<OrdersSkeleton/>
+   
+  );
+}
 
 
 
