@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import api from "../services/api";
 import {
   Smartphone,
@@ -28,6 +28,7 @@ function FeaturedCategories({ onSelectCategory }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -60,50 +61,18 @@ function FeaturedCategories({ onSelectCategory }) {
   const handleCategory = (categoryId, categoryName) => {
     setSelectedCategory(categoryId);
     console.log("Selected category:", categoryId, categoryName);
-
+    
     // Pass selected category to parent component
     if (onSelectCategory) {
       onSelectCategory(categoryId, categoryName);
     }
   };
 
-  // Memoize rendered category buttons so they aren't recreated on every
-  // unrelated re-render (only recomputes when categories or selection change)
-  const categoryButtons = useMemo(() => {
-    return categories.map((category, index) => {
-      const Icon = category.icon;
-      const isActive = selectedCategory === category.id;
-
-      return (
-        <button
-          key={category.id}
-          onClick={() => handleCategory(category.id, category.name)}
-          className={`category-button flex items-center gap-2 px-3 sm:px-5 py-3 rounded-full border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-lg whitespace-nowrap ${
-            isActive ? "active" : ""
-          }`}
-          style={{
-            animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
-          }}
-        >
-          <Icon
-            size={20}
-            className={`category-icon ${
-              isActive ? "text-white" : "text-green-500"
-            }`}
-          />
-          <span className="font-medium text-sm sm:text-base">
-            {category.name}
-          </span>
-        </button>
-      );
-    });
-  }, [categories, selectedCategory]);
-
   // Loading skeleton
   if (loading) {
     return (
-      <section className="w-full px-3 sm:px-4 md:px-5 py-8 md:py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto pt-12">
+      <section className="w-full px-3 sm:px-4 md:px-5 py-6 md:py-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
           <div className="h-10 bg-gray-300 rounded-lg w-1/3 mb-6 animate-pulse"></div>
           <div className="flex gap-4 overflow-hidden">
             {[...Array(6)].map((_, i) => (
@@ -119,7 +88,7 @@ function FeaturedCategories({ onSelectCategory }) {
   }
 
   return (
-    <section className="  w-full  mt-2.5 px-3 sm:px-4 md:px-5 py-8 md:py-12 bg-gray-50">
+    <section className="sticky top-[56px] md:top-[64px] z-30 w-full px-3 sm:px-4 md:px-5 py-4 md:py-6 bg-gray-50 border-b border-gray-100 shadow-sm">
       <style>{`
         @keyframes slideInUp {
           from { opacity: 0; transform: translateY(30px); }
@@ -137,11 +106,6 @@ function FeaturedCategories({ onSelectCategory }) {
 
         .section-subtitle {
           animation: slideInUp 0.6s ease-out 0.1s both;
-          opacity: 0;
-        }
-
-        .categories-container {
-          animation: slideInUp 0.6s ease-out 0.2s both;
           opacity: 0;
         }
 
@@ -169,7 +133,7 @@ function FeaturedCategories({ onSelectCategory }) {
         }
 
         .category-button:hover {
-          transform: translateY(-6px);
+          transform: translateY(-4px);
           box-shadow: 0 12px 24px rgba(34, 197, 94, 0.3);
         }
 
@@ -194,34 +158,31 @@ function FeaturedCategories({ onSelectCategory }) {
           transform: scale(1.2) rotate(10deg);
         }
 
-        /* Horizontal scroll on ALL devices, scrollbar hidden but scroll/swipe enabled */
-        #categories-scroll {
-          scroll-behavior: smooth;
-          -ms-overflow-style: none; /* IE and Edge */
-          scrollbar-width: none; /* Firefox */
-          -webkit-overflow-scrolling: touch; /* smooth swipe on iOS */
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
-
-        #categories-scroll::-webkit-scrollbar {
-          display: none; /* Chrome, Safari */
+        
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto pt-4 md:pt-6">
+      <div className="max-w-7xl mx-auto pb-1">
         
-        {/* Header Section */}
-        <div className="mb-6 md:mb-8">
-          <h2 className="section-title text-2xl sm:text-3xl md:text-4xl font-bold">
+        {/* Header Section remains intact */}
+        <div className="mb-4 md:mb-5">
+          <h2 className="section-title text-xl sm:text-2xl md:text-3xl font-bold">
             Shop by <span className="text-green-500">Category</span>
           </h2>
-          <p className="section-subtitle text-gray-600 text-sm sm:text-base mt-2">
+          <p className="section-subtitle text-gray-600 text-xs sm:text-sm mt-1">
             Explore our wide range of products
           </p>
         </div>
 
         {/* Error State */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
             {error}
             <button
               onClick={fetchCategories}
@@ -232,20 +193,44 @@ function FeaturedCategories({ onSelectCategory }) {
           </div>
         )}
 
-        {/* Sticky Horizontal Scroll Bar - used on ALL devices */}
-        <div className="sticky top-14 lg:top-16 z-40 bg-gray-50">
-          <div
-            id="categories-scroll"
-            className="categories-container flex gap-3 sm:gap-4 overflow-x-auto py-3 px-0"
-          >
-            {categoryButtons}
+        {/* Safe Empty State vs Horizontal View Check */}
+        {categories.length === 0 && !error ? (
+          <div className="py-4 text-left">
+            <p className="text-gray-500 text-sm italic">No categories available right now.</p>
           </div>
-        </div>
+        ) : (
+          <div
+            className="hide-scrollbar flex gap-2.5 sm:gap-4 overflow-x-auto pb-2 pt-1 px-0 scroll-smooth touch-pan-x"
+          >
+            {categories.map((category, index) => {
+              const Icon = category.icon;
+              const isActive = selectedCategory === category.id;
 
-        {/* Empty State */}
-        {categories.length === 0 && !error && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No categories available</p>
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => handleCategory(category.id, category.name)}
+                  className={`category-button flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-lg whitespace-nowrap ${
+                    isActive ? "active" : ""
+                  }`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  style={{
+                    animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
+                  }}
+                >
+                  <Icon
+                    size={18}
+                    className={`category-icon ${
+                      isActive ? "text-white" : "text-green-500"
+                    }`}
+                  />
+                  <span className="font-medium text-xs sm:text-sm md:text-base">
+                    {category.name}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
