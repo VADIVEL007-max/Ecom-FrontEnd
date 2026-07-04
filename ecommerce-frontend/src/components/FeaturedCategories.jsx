@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import api from "../services/api";
 import {
   Smartphone,
@@ -28,7 +28,6 @@ function FeaturedCategories({ onSelectCategory }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -61,12 +60,44 @@ function FeaturedCategories({ onSelectCategory }) {
   const handleCategory = (categoryId, categoryName) => {
     setSelectedCategory(categoryId);
     console.log("Selected category:", categoryId, categoryName);
-    
+
     // Pass selected category to parent component
     if (onSelectCategory) {
       onSelectCategory(categoryId, categoryName);
     }
   };
+
+  // Memoize rendered category buttons so they aren't recreated on every
+  // unrelated re-render (only recomputes when categories or selection change)
+  const categoryButtons = useMemo(() => {
+    return categories.map((category, index) => {
+      const Icon = category.icon;
+      const isActive = selectedCategory === category.id;
+
+      return (
+        <button
+          key={category.id}
+          onClick={() => handleCategory(category.id, category.name)}
+          className={`category-button flex items-center gap-2 px-3 sm:px-5 py-3 rounded-full border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-lg whitespace-nowrap ${
+            isActive ? "active" : ""
+          }`}
+          style={{
+            animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
+          }}
+        >
+          <Icon
+            size={20}
+            className={`category-icon ${
+              isActive ? "text-white" : "text-green-500"
+            }`}
+          />
+          <span className="font-medium text-sm sm:text-base">
+            {category.name}
+          </span>
+        </button>
+      );
+    });
+  }, [categories, selectedCategory]);
 
   // Loading skeleton
   if (loading) {
@@ -88,7 +119,7 @@ function FeaturedCategories({ onSelectCategory }) {
   }
 
   return (
-    <section className="w-full  mt-2.5 px-3 sm:px-4 md:px-5 py-8 md:py-12 bg-gray-50">
+    <section className="  w-full  mt-2.5 px-3 sm:px-4 md:px-5 py-8 md:py-12 bg-gray-50">
       <style>{`
         @keyframes slideInUp {
           from { opacity: 0; transform: translateY(30px); }
@@ -163,49 +194,20 @@ function FeaturedCategories({ onSelectCategory }) {
           transform: scale(1.2) rotate(10deg);
         }
 
+        /* Horizontal scroll on ALL devices, scrollbar hidden but scroll/swipe enabled */
         #categories-scroll {
           scroll-behavior: smooth;
-          scrollbar-width: thin;
-          scrollbar-color: #22c55e #f0fdf4;
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+          -webkit-overflow-scrolling: touch; /* smooth swipe on iOS */
         }
 
         #categories-scroll::-webkit-scrollbar {
-          height: 6px;
-        }
-
-        #categories-scroll::-webkit-scrollbar-track {
-          background: #f0fdf4;
-        }
-
-        #categories-scroll::-webkit-scrollbar-thumb {
-          background: #22c55e;
-          border-radius: 10px;
-        }
-
-        @media (max-width: 767px) {
-          .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-          }
-
-          .categories-scroll {
-            display: none;
-          }
-        }
-
-        @media (min-width: 768px) {
-          .categories-grid {
-            display: none;
-          }
-
-          .categories-scroll {
-            display: flex;
-          }
+          display: none; /* Chrome, Safari */
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto pt-12">
+      <div className="max-w-7xl mx-auto pt-4 md:pt-6">
         
         {/* Header Section */}
         <div className="mb-6 md:mb-8">
@@ -230,71 +232,14 @@ function FeaturedCategories({ onSelectCategory }) {
           </div>
         )}
 
-        {/* Desktop: Horizontal Scroll View */}
-        <div
-          id="categories-scroll"
-          className="categories-scroll flex gap-3 sm:gap-4 overflow-x-auto pb-3 px-0"
-        >
-          {categories.map((category, index) => {
-            const Icon = category.icon;
-            const isActive = selectedCategory === category.id;
-
-            return (
-              <button
-                key={category.id}
-                onClick={() => handleCategory(category.id, category.name)}
-                className={`category-button flex items-center gap-2 px-3 sm:px-5 py-3 rounded-full border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-lg whitespace-nowrap ${
-                  isActive ? "active" : ""
-                }`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                style={{
-                  animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
-                }}
-              >
-                <Icon
-                  size={20}
-                  className={`category-icon ${
-                    isActive ? "text-white" : "text-green-500"
-                  }`}
-                />
-                <span className="font-medium text-sm sm:text-base">
-                  {category.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Mobile: Grid View */}
-        <div className="categories-grid">
-          {categories.map((category, index) => {
-            const Icon = category.icon;
-            const isActive = selectedCategory === category.id;
-
-            return (
-              <button
-                key={category.id}
-                onClick={() => handleCategory(category.id, category.name)}
-                className={`category-button flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-md ${
-                  isActive ? "active" : ""
-                }`}
-                style={{
-                  animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
-                }}
-              >
-                <Icon
-                  size={24}
-                  className={`category-icon ${
-                    isActive ? "text-white" : "text-green-500"
-                  }`}
-                />
-                <span className="font-medium text-xs sm:text-sm text-center">
-                  {category.name}
-                </span>
-              </button>
-            );
-          })}
+        {/* Sticky Horizontal Scroll Bar - used on ALL devices */}
+        <div className="sticky top-14 lg:top-16 z-40 bg-gray-50">
+          <div
+            id="categories-scroll"
+            className="categories-container flex gap-3 sm:gap-4 overflow-x-auto py-3 px-0"
+          >
+            {categoryButtons}
+          </div>
         </div>
 
         {/* Empty State */}
