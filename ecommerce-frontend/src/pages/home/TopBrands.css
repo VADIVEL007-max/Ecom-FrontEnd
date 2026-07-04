@@ -1,0 +1,115 @@
+.brand-slider{
+    overflow:hidden;
+    position:relative;
+    width:100%;
+}
+
+.brand-track{
+
+    display:flex;
+    width:max-content;
+
+    animation:scrollBrands 30s linear infinite;
+}
+
+.brand-slider:hover .brand-track{
+
+    animation-play-state:paused;
+
+}
+
+.brand-card{
+
+    width:180px;
+    height:100px;
+
+    margin:0 18px;
+
+    background:white;
+
+    border-radius:18px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border:1px solid #ececec;
+
+    transition:.3s;
+
+    flex-shrink:0;
+}
+
+.brand-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
+}
+
+.brand-card img{
+
+    width:110px;
+
+    height:45px;
+
+    object-fit:contain;
+
+    filter:grayscale(100%);
+
+    transition:.3s;
+
+}
+
+.brand-card:hover img{
+
+    filter:grayscale(0);
+
+    transform:scale(1.08);
+
+}
+
+@keyframes scrollBrands{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+.brand-card{
+
+    width:140px;
+
+    height:80px;
+
+    margin:0 10px;
+
+}
+
+.brand-card img{
+
+    width:85px;
+
+    height:35px;
+
+}
+
+.brand-track{
+
+    animation-duration:22s;
+
+}
+
+}
