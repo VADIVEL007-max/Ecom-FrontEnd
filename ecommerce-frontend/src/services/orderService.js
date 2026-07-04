@@ -1,8 +1,8 @@
 import api from "./api";
 
 // Place Order
-export const placeOrder = () => {
-  return api.post("/api/orders");
+export const placeOrder = (data) => {
+  return api.post("/api/orders", data);
 };
 
 // Get All Orders

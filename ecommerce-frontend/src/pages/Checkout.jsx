@@ -8,6 +8,7 @@ import AddressCard from "../components/AddressCard";
 import { getAddresses } from "../services/addressService";
 import AddressModal from "../components/AddressModal";
 import AddressForm from "../components/AddressForm";
+import toast from "react-hot-toast";
 
 
 
@@ -51,15 +52,23 @@ const fetchAddresses = async () => {
   // place an order in db
 const handlePlaceOrder = async () => {
   try {
-    await placeOrder();
+     if (!selectedAddress) {
+      toast.error("Please select an address");
+      return;
+    }
 
-    alert("Order placed successfully!");
+    await placeOrder({
+      addressId: selectedAddress.id,
+    });
+    
+
+    toast.success("Order placed successfully");
 
     navigate("/orders");
 
   } catch (error) {
     console.log(error);
-    alert("Failed to place order");
+    toast.error("Failed to place order");
   }
 };
 // Function to handle the edit button click 
