@@ -50,15 +50,15 @@ function Products() {
 
   // Filter products by category (Client-side filtering)
   const filterProductsByCategory = (categoryId) => {
-    console.log("Filtering by category ID:", categoryId);
-    console.log("All products:", allProducts);
+    // console.log("Filtering by category ID:", categoryId);
+    // console.log("All products:", allProducts);
 
     // Filter products where category ID matches
     const filtered = allProducts.filter(
       (product) => product.categoryId === categoryId || product.category_id === categoryId
     );
 
-    console.log("Filtered products:", filtered);
+    // console.log("Filtered products:", filtered);
 
     if (filtered.length > 0) {
       setProducts(filtered);
@@ -198,44 +198,60 @@ function Products() {
         </div>
 
         {/* Products Grid */}
-        {products.length > 0 ? (
-          <div className="products-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-            {products.map((product, index) => (
-              <div
-                key={product.id}
-                className="product-item"
-                style={{
-                  animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
-                  opacity: 0,
-                }}
+       {/* Products Grid */}
+
+          {loading ? (
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+              {[...Array(10)].map((_, index) => (
+                <ProductCardSkeleton key={index} />
+              ))}
+            </div>
+
+          ) : products.length > 0 ? (
+
+            <div className="products-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+              {products.map((product, index) => (
+                <div
+                  key={product.id}
+                  className="product-item"
+                  style={{
+                    animation: `slideInUp 0.5s ease-out ${index * 0.05}s both`,
+                    opacity: 0,
+                  }}
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+
+          ) : (
+
+            <div className="empty-state bg-white rounded-xl shadow-md p-12 sm:p-16 text-center">
+              <div className="text-6xl mb-4">📭</div>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+                No Products Found
+              </h2>
+
+              <p className="text-gray-600 mb-6">
+                We couldn't find any products in the "{categoryName}" category.
+                <br />
+                <small className="text-gray-500 mt-2 block">
+                  (Check if category ID matches product data)
+                </small>
+              </p>
+
+              <button
+                onClick={clearFilter}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors"
               >
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          // Empty State
-          <div className="empty-state bg-white rounded-xl shadow-md p-12 sm:p-16 text-center">
-            <div className="text-6xl mb-4">📭</div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-              No Products Found
-            </h2>
-            <p className="text-gray-600 mb-6">
-              We couldn't find any products in the "{categoryName}" category.
-              <br />
-              <small className="text-gray-500 mt-2 block">
-                (Check if category ID matches product data)
-              </small>
-            </p>
-            <button
-              onClick={clearFilter}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors"
-            >
-              <X size={18} />
-              View All Products
-            </button>
-          </div>
-        )}
+                <X size={18} />
+                View All Products
+              </button>
+            </div>
+
+          )}
       </div>
     </>
   );
