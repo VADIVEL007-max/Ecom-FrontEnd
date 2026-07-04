@@ -23,7 +23,7 @@ const iconMap = {
   Automobile: Car,
 };
 
-function FeaturedCategories({ onSelectCategory }) {
+function FeaturedCategories({ onSelectCategory, activeCategoryId }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,6 +34,15 @@ function FeaturedCategories({ onSelectCategory }) {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  // Sync internal selected state with parent's active category.
+  // Only runs if the parent actually passes this prop, so existing
+  // usages without it keep working exactly as before.
+  useEffect(() => {
+    if (activeCategoryId !== undefined) {
+      setSelectedCategory(activeCategoryId);
+    }
+  }, [activeCategoryId]);
 
   // API call to fetch categories
   const fetchCategories = async () => {
@@ -60,7 +69,7 @@ function FeaturedCategories({ onSelectCategory }) {
   // Handle category selection
   const handleCategory = (categoryId, categoryName) => {
     setSelectedCategory(categoryId);
-    console.log("Selected category:", categoryId, categoryName);
+    // console.log("Selected category:", categoryId, categoryName);
     
     // Pass selected category to parent component
     if (onSelectCategory) {
@@ -110,10 +119,13 @@ function FeaturedCategories({ onSelectCategory }) {
         }
 
         .category-button {
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
           position: relative;
           overflow: hidden;
           flex-shrink: 0;
+          background-color: #ffffff;
+          border-color: #bbf7d0; /* border-green-200 */
+          color: #000000;
         }
 
         .category-button::before {
@@ -132,30 +144,54 @@ function FeaturedCategories({ onSelectCategory }) {
           left: 100%;
         }
 
+        /* Hover: background + border + text + icon all shift to green/white
+           TOGETHER, so text is never white-on-white. Text/icon stay visible,
+           only color + a slight lift + shadow change. No opacity/scale/translate
+           on the text itself. */
         .category-button:hover {
+          background-color: #22c55e;
+          border-color: #16a34a;
+          color: #ffffff;
           transform: translateY(-4px);
           box-shadow: 0 12px 24px rgba(34, 197, 94, 0.3);
         }
 
+        .category-button:hover .category-icon {
+          color: #ffffff;
+        }
+
+        /* Active (selected) state - same green look, no layout shift on hover */
         .category-button.active {
-          background: #22c55e;
-          color: white;
+          background-color: #22c55e;
           border-color: #16a34a;
+          color: #ffffff;
         }
 
         .category-button.active .category-icon {
-          color: white;
+          color: #ffffff;
+        }
+
+        .category-button.active:hover {
+          background-color: #22c55e;
+          border-color: #16a34a;
+          transform: translateY(-4px);
+          box-shadow: 0 12px 24px rgba(34, 197, 94, 0.3);
         }
 
         .category-icon {
-          transition: all 0.3s ease;
+          transition: color 0.3s ease, transform 0.3s ease;
           animation: iconFloat 2s ease-in-out infinite;
+          color: #22c55e;
         }
 
         .category-button:hover .category-icon,
         .category-button.active .category-icon {
           animation: none;
           transform: scale(1.2) rotate(10deg);
+        }
+
+        .category-button-text {
+          transition: color 0.3s ease;
         }
 
         .hide-scrollbar {
@@ -210,7 +246,7 @@ function FeaturedCategories({ onSelectCategory }) {
                 <button
                   key={category.id}
                   onClick={() => handleCategory(category.id, category.name)}
-                  className={`category-button flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full border-2 border-green-200 bg-white hover:text-white shadow-sm hover:shadow-lg whitespace-nowrap ${
+                  className={`category-button flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full border-2 shadow-sm whitespace-nowrap ${
                     isActive ? "active" : ""
                   }`}
                   onMouseEnter={() => setHoveredIndex(index)}
@@ -221,11 +257,9 @@ function FeaturedCategories({ onSelectCategory }) {
                 >
                   <Icon
                     size={18}
-                    className={`category-icon ${
-                      isActive ? "text-white" : "text-green-500"
-                    }`}
+                    className="category-icon"
                   />
-                  <span className="font-medium text-xs sm:text-sm md:text-base">
+                  <span className="category-button-text font-medium text-xs sm:text-sm md:text-base">
                     {category.name}
                   </span>
                 </button>
