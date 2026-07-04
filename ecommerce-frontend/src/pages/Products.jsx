@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard";
 import FeaturedCategories from "../components/FeaturedCategories";
 import OfferSlider from "../components/OfferSlider";
 import { X } from "lucide-react";
+import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -82,14 +83,14 @@ function Products() {
     setProducts(allProducts);
   };
 
-  // if (loading && allProducts.length === 0) {
-  //   return ;
-  // }
+  if (loading ) {
+    return <ProductCardSkeleton/>
+    }
 
   return (
     <>
       {/* Offer Slider - Optional */}
-    <OfferSlider/>
+    {/* <OfferSlider/> */}
 
       {/* Featured Categories */}
       <FeaturedCategories onSelectCategory={handleCategorySelect} />
