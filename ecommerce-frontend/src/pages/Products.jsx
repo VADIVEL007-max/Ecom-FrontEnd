@@ -73,7 +73,7 @@ function Products() {
   const handleCategorySelect = (categoryId, categoryName) => {
     setSelectedCategoryId(categoryId);
     setCategoryName(categoryName);
-    console.log("Selected Category ID:", categoryId, "Name:", categoryName);
+    // console.log("Selected Category ID:", categoryId, "Name:", categoryName);
   };
 
   // Clear filter
@@ -93,7 +93,7 @@ function Products() {
     {/* <OfferSlider/> */}
 
       {/* Featured Categories */}
-      <FeaturedCategories onSelectCategory={handleCategorySelect} />
+      <FeaturedCategories onSelectCategory={handleCategorySelect}  activeCategoryId={selectedCategoryId}/>
         
 
       {/* Products Section */}
