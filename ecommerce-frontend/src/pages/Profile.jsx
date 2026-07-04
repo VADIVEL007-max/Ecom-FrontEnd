@@ -14,6 +14,7 @@ import {
 import AddressForm from "../components/AddressForm";
 import AddressModal from "../components/AddressModal";
 import toast from "react-hot-toast";
+import ProfileSkeleton from "../components/skeleton/ProfileSkeleton";
 
 function Profile() {
   const navigate = useNavigate();
@@ -110,17 +111,13 @@ const fetchAddresses = async () => {
 // Show loading state while fetching user profile
 if (!user) {
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      Loading...
-    </div>
+   <ProfileSkeleton/>
   );
 }
 
 // Render user profile
-  return (
-    <div className="min-h-screen bg-gray-100 pt-24 pb-10">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="mb-6">
+  return (<>
+   <div className="mb-6">
           <button
             onClick={() => navigate("/")}
             className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-100 transition"
@@ -129,6 +126,18 @@ if (!user) {
             Back
           </button>
         </div>
+    
+    <div className="min-h-screen bg-gray-100 pt-5 pb-10">
+      <div className="max-w-5xl mx-auto px-4">
+        {/* <div className="mb-6">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <ArrowLeft size={20} />
+            Back
+          </button>
+        </div> */}
 
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -351,6 +360,7 @@ if (!user) {
 
       </div>
     </div>
+    </>
   );
 }
 
