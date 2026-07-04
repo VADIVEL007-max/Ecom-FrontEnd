@@ -105,6 +105,34 @@ if (!order) {
 
         </div>
 
+        {/* Shipping Address */}
+
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+
+            <h2 className="text-2xl font-bold mb-5">
+              Shipping Address
+            </h2>
+
+            <div className="space-y-2">
+
+              <h3 className="text-lg font-bold">
+                {order.address.fullName}
+              </h3>
+
+              <p>{order.address.phone}</p>
+
+              <p>{order.address.address}</p>
+
+              <p>
+                {order.address.city}, {order.address.state}
+              </p>
+
+              <p>{order.address.pincode}</p>
+
+            </div>
+
+          </div>
+
         {/* Products */}
 
         <div className="bg-white rounded-2xl shadow-lg p-6">
