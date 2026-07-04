@@ -3,6 +3,7 @@ import { ArrowLeft, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getOrderById } from "../services/orderService";
+import OrderDetailsSkeleton from "../components/skeleton/OrderDetailsSkeleton";
 
 function OrderDetails() {
     // get order id from url params
@@ -26,10 +27,8 @@ const fetchOrder = async () => {
 
 // if order is not found, show loading
 if (!order) {
-  return (
-    <div className="min-h-screen flex justify-center items-center">
-      Loading...
-    </div>
+  return (<OrderDetailsSkeleton/>
+   
   );
 }
   return (
