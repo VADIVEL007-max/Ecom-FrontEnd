@@ -73,7 +73,7 @@ function FeaturedProducts() {
 }
 
 export default FeaturedProducts;
-// import ProductCard from './ProductCard'
+
 
 // function FeaturedProducts() {
   
