@@ -12,6 +12,7 @@ import Orders from "../pages/Orders";
 import OrderDetails from "../pages/OrderDetails";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import Wishlist from "../pages/Wishlist";
 
 
 
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
               <OrderDetails/>
             </ProtectedRoute>) 
       },
-    {
+      {
         path: "/profile",
         element: (
             <ProtectedRoute>
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
             </ProtectedRoute>
           ),
         },
+        {
+          path: "/wishlist",
+          element: <Wishlist />,
+          },
     ],
     errorElement: <NotFound />
    

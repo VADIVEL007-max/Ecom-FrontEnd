@@ -8,6 +8,7 @@ import {
   User,
   LogOut,
   Search,
+  Heart,
 } from "lucide-react";
 
 function Navbar() {
@@ -42,10 +43,10 @@ function Navbar() {
           DESKTOP NAVBAR (lg and above) — unchanged functionality
       ============================================================ */}
       <nav className="hidden lg:block fixed top-0 w-full z-50 bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 xl:px-5 py-3 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 xl:px-5 py-3 flex items-center justify-between gap-2">
 
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white font-bold text-lg">
+          <Link to="/" className="flex items-center  flex-shrink-0">
+            <div className="w-9 h-9 rounded-lg hover:scale-110 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white font-bold text-lg">
               S
             </div>
             <span className="text-xl xl:text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent whitespace-nowrap">
@@ -64,21 +65,30 @@ function Navbar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 xl:gap-6 font-medium flex-shrink-0">
-            <Link to="/" className="text-gray-800 hover:text-green-600 transition-colors text-sm xl:text-base">
-              Home
-            </Link>
-            <Link to="/products" className="text-gray-800 hover:text-green-600 transition-colors text-sm xl:text-base">
-              Products
+          <div className="flex items-center gap-4 xl:gap-8 font-medium flex-shrink-0">
+            <Link to="/" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
+            <Home size={22}/>
+             <span className="text-[10px] sm:text-[11px] font-medium">Home</span>
             </Link>
 
-            <Link to="/cart" className="relative text-gray-800 hover:text-green-600 transition-colors">
+            <Link to="/products" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
+             <Package size={22}/>
+              <span className="text-[10px] sm:text-[11px] font-medium">Products</span>
+            </Link>
+
+            <Link to="/cart" className="relative hover:scale-105 text-gray-800 hover:text-green-600 transition-colors">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
                   {cartCount}
                 </span>
               )}
+               <span className="text-[10px] sm:text-[11px] font-medium">Cart</span>
+            </Link>
+
+            <Link to="/wishlist" className="relative hover:scale-105 text-gray-800 hover:text-rose-600 transition-colors">
+            <Heart size={22} />
+             <span className="text-[10px] sm:text-[11px] font-medium">Wishlist</span>
             </Link>
 
             {!token ? (
@@ -255,6 +265,25 @@ function Navbar() {
           </NavLink>
 
           <NavLink
+            to="/wishlist"
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center gap-0.5 flex-1 py-2 sm:py-2.5 transition-colors min-w-0 ${
+                isActive ? "text-rose-700" : "text-gray-500"
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`rounded-full px-2.5 sm:px-3 py-0.5 ${isActive ? "bg-green-50" : ""}`}>
+                  <Heart size={20} />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-medium">Wishlist</span>
+              </>
+            )}
+          </NavLink>
+
+
+          <NavLink
             to="/orders"
             className={({ isActive }) =>
               `flex flex-col items-center justify-center gap-0.5 flex-1 py-2 sm:py-2.5 transition-colors min-w-0 ${
@@ -289,7 +318,7 @@ function Navbar() {
               </>
             )}
           </NavLink>
-
+          
         </div>
       </nav>
 

@@ -2,15 +2,20 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Heart, ShoppingCart, Star, Zap, ImageOff } from "lucide-react";
 import { addToCart } from "../services/cartService";
+import { toggleWishlist } from "../services/wishlistService";
+ import { useWishlist } from "../context/WishlistContext";
 
 
 
-function ProductCard({ product }) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+function ProductCard({ product, onWishlistToggle }) {
+  const {wishlist,setWishlist,} = useWishlist();
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+ 
+const isWishlisted = wishlist.includes(product.id);
 
   if (!product) {
     return (
@@ -20,39 +25,38 @@ function ProductCard({ product }) {
     );
   }
 
-  const handleWishlist = (e) => {
-    e.preventDefault();
-    setIsWishlisted(!isWishlisted);
-  };
+  const handleWishlist = async (e) => {
+  e.preventDefault();
 
-  // const handleAddToCart = (e) => {
-  //   e.preventDefault();
-  //   setIsAddedToCart(true);
-  //   setShowNotification(true);
-  //   setTimeout(() => setShowNotification(false), 2000);
-  //   setTimeout(() => setIsAddedToCart(false), 600);
-  // };
-// const handleAddToCart = async (e) => {
-//   e.preventDefault();
+  const token = localStorage.getItem("accessToken");
 
-//   try {
-//     await addToCart({
-//       productId: product.id,
-//       quantity: 1,
-//     });
+  if (!token) {
+    navigate("/login");
+    return;
+  }
 
-//     setIsAddedToCart(true);
-//     setShowNotification(true);
+  try {
+    await toggleWishlist(product.id);
 
-//     setTimeout(() => setShowNotification(false), 2000);
-//     setTimeout(() => setIsAddedToCart(false), 600);
+    if (onWishlistToggle) {
+      onWishlistToggle(product.id);
+      return;
+    }
 
-//   } catch (error) {
-//     console.log(error);
-//     alert("Failed to add product to cart");
-//   }
-// };
+    if (isWishlisted) {
+      setWishlist((prev) =>
+        prev.filter((id) => id !== product.id)
+      );
+    } else {
+      setWishlist((prev) => [...prev, product.id]);
+    }
 
+  } catch (error) {
+    console.log(error);
+    alert("Failed to update wishlist");
+  }
+};
+  
 
 const navigate = useNavigate();
 const handleAddToCart = async (e) => {
