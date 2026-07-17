@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 // import { getCart } from "../services/cartService";
 import { getCart, updateCart, deleteCart } from "../services/cartService";
 import {
@@ -9,10 +9,17 @@ import {
   Minus,
   Trash2,
 } from "lucide-react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setCart } from "../redux/cartSlice";
 
 function Cart() {
+        const dispatch = useDispatch();
 
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
+  //
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  
   useEffect(() => {
   fetchCart();
 }, []);
@@ -20,7 +27,11 @@ function Cart() {
 const fetchCart = async () => {
   try {
     const response = await getCart();
-    setCartItems(response.data.data);
+    // setCartItems(response.data.data);
+
+    dispatch(setCart(response.data.data));
+    console.log(response.data.data);
+    
   } catch (error) {
     console.log(error);
   }

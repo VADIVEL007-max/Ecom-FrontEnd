@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { getWishlist, toggleWishlist } from "../services/wishlistService";
 import ProductCard from "../components/ProductCard";
+// redux tool
+import { useDispatch, useSelector } from "react-redux";
+import { setWishlist } from "../redux/wishlistSlice";
 
 function Wishlist() {
-  const [wishlistProducts, setWishlistProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const wishlistProducts = useSelector((state) => state.wishlist.wishlistItems);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchWishlist();
@@ -13,7 +19,9 @@ function Wishlist() {
   const fetchWishlist = async () => {
     try {
       const response = await getWishlist();
-      setWishlistProducts(response.data);
+
+      dispatch(setWishlist(response.data));
+
     } catch (error) {
       console.log(error);
     } finally {

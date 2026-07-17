@@ -10,19 +10,30 @@ import {
   Search,
   Heart,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+
+   const cartItems = useSelector( (state) => state.cart.cartItems);
+   const cartCount = cartItems.length;
+
+   const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+
+  const wishlistCount = wishlistItems.length;
+  
 
   const token = localStorage.getItem("accessToken");
   const user = token ? JSON.parse(localStorage.getItem("user")) : null;
 
-  useEffect(() => {
-    const storedCount = localStorage.getItem("cartCount");
-    if (storedCount) setCartCount(Number(storedCount));
-  }, []);
+  // useEffect(() => {
+  //   const storedCount = localStorage.getItem("cartCount");
+  //   if (storedCount) setCartCount(Number(storedCount));
+  // }, []);
+ 
+
+
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -68,28 +79,36 @@ function Navbar() {
           <div className="flex items-center gap-4 xl:gap-8 font-medium flex-shrink-0">
             <Link to="/" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
             <Home size={22}/>
-             <span className="text-[10px] sm:text-[11px] font-medium">Home</span>
+             {/* <span className="text-[10px] sm:text-[11px] font-medium">Home</span> */}
             </Link>
 
             <Link to="/products" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
              <Package size={22}/>
-              <span className="text-[10px] sm:text-[11px] font-medium">Products</span>
+              {/* <span className="text-[10px] sm:text-[11px] font-medium">Products</span> */}
             </Link>
 
             <Link to="/cart" className="relative hover:scale-105 text-gray-800 hover:text-green-600 transition-colors">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
                   {cartCount}
                 </span>
               )}
-               <span className="text-[10px] sm:text-[11px] font-medium">Cart</span>
+               {/* <span className="text-[10px] sm:text-[11px] font-medium">Cart</span> */}
             </Link>
 
-            <Link to="/wishlist" className="relative hover:scale-105 text-gray-800 hover:text-rose-600 transition-colors">
-            <Heart size={22} />
-             <span className="text-[10px] sm:text-[11px] font-medium">Wishlist</span>
-            </Link>
+              <Link to="/wishlist"className="relative hover:scale-105 text-gray-800 hover:text-rose-600 transition-colors">
+                <Heart size={22} />
+
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
+                    {wishlistCount}
+                  </span>
+                )}
+                {/* <span className="text-[10px] sm:text-[11px] font-medium">
+                  Wishlist
+                </span> */}
+              </Link>
 
             {!token ? (
               <Link
@@ -254,7 +273,7 @@ function Navbar() {
                 <div className={`relative rounded-full px-2.5 sm:px-3 py-0.5 ${isActive ? "bg-green-50" : ""}`}>
                   <ShoppingCart size={20} />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-green-600 text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center rounded-full px-1">
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center rounded-full px-1">
                       {cartCount}
                     </span>
                   )}
@@ -274,8 +293,18 @@ function Navbar() {
           >
             {({ isActive }) => (
               <>
-                <div className={`rounded-full px-2.5 sm:px-3 py-0.5 ${isActive ? "bg-green-50" : ""}`}>
+               <div
+                  className={`relative rounded-full px-2.5 sm:px-3 py-0.5 ${
+                    isActive ? "bg-green-50" : ""
+                  }`}
+                >
                   <Heart size={20} />
+
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center rounded-full px-1">
+                      {wishlistCount}
+                    </span>
+                  )}
                 </div>
                 <span className="text-[10px] sm:text-[11px] font-medium">Wishlist</span>
               </>
