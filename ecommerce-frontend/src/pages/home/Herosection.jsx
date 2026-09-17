@@ -7,7 +7,7 @@ export default function HeroCenteredFloating() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100 pointer-events-none"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop')`,
+          backgroundImage: `url('https://ik.imagekit.io/yz7lyfxnj/peter%20img/ChatGPT%20Image%20Sep%2017,%202026,%2010_22_47%20PM.png')`,
         }}
       />
 
@@ -45,26 +45,29 @@ export default function HeroCenteredFloating() {
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-8">
         
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black  leading-[1.1]">
-          The Smartest Way To Shop For <br />
+          The 
+          <span className="bg-linear-to-r from-black via-black/90 to-black bg-clip-text text-transparent ">
+            Smartest Way
+          </span>  To Shop For <br />
           <span className="bg-linear-to-r from-black via-black/30 to-black bg-clip-text text-transparent">
             Everyday Essentials
           </span>
         </h1>
 
-        <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
+        <p className=" shadow-lg shadow-rose-500text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
           Discover verified top-tier products with instant checkout, free express shipping, and 24/7 dedicated support.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <Link
             to="/products"
-            className="w-full sm:w-auto px-10 py-4 bg-stone-500 hover:bg-white text-slate-950 font-extrabold text-base rounded-2xl shadow-lg shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full sm:w-auto px-10 py-4 bg-stone-700 hover:bg-white text-white hover:text-black font-extrabold text-base rounded-2xl shadow-lg shadow-rose-500 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
             Start Shopping
           </Link>
           <a
             href="/products"
-            className="w-full sm:w-auto px-8 py-4 bg-black hover:bg-black/300 border border-slate-700 text-white font-bold text-base rounded-2xl transition-all"
+            className=" hover:shadow-lg shadow-rose-500 w-full sm:w-auto px-8 py-4 bg-black hover:bg-black/300 border border-slate-700 text-white font-bold text-base rounded-2xl transition-all"
           >
             Browse Categories
           </a>

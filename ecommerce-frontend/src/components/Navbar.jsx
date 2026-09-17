@@ -53,12 +53,12 @@ function Navbar() {
       {/* ============================================================
           DESKTOP NAVBAR (lg and above) — unchanged functionality
       ============================================================ */}
-      <nav className="hidden lg:block fixed top-0 w-full z-50 bg-white shadow-md">
+      <nav className="hidden lg:block fixed top-0 w-full z-5  bg-black shadow-md">
         <div className="max-w-7xl mx-auto px-4 xl:px-5 py-3 flex items-center justify-between gap-2">
 
           <Link to="/" className="flex items-center  flex-shrink-0">
-            <div className="w-9 h-9 rounded-lg hover:scale-110 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white font-bold text-lg">
-              S
+            <div className="w-9 h-9 gap-2  rounded-lg hover:scale-110 bg-gradient-to-br from-stone-500 to-stone-650 flex items-center justify-center text-white font-bold text-lg">
+              BS
             </div>
             <span className="text-xl xl:text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent whitespace-nowrap">
               BuySmart
@@ -77,17 +77,17 @@ function Navbar() {
           </div>
 
           <div className="flex items-center gap-4 xl:gap-8 font-medium flex-shrink-0">
-            <Link to="/" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
+            <Link to="/" className="text-gray-400 hover:scale-105 hover:text-green-500 transition-colors text-sm xl:text-base">
             <Home size={22}/>
              {/* <span className="text-[10px] sm:text-[11px] font-medium">Home</span> */}
             </Link>
 
-            <Link to="/products" className="text-gray-800 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
+            <Link to="/products" className="text-gray-400 hover:scale-105 hover:text-green-600 transition-colors text-sm xl:text-base">
              <Package size={22}/>
               {/* <span className="text-[10px] sm:text-[11px] font-medium">Products</span> */}
             </Link>
 
-            <Link to="/cart" className="relative hover:scale-105 text-gray-800 hover:text-green-600 transition-colors">
+            <Link to="/cart" className="relative hover:scale-105 text-gray-400 hover:text-green-600 transition-colors">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
@@ -97,7 +97,7 @@ function Navbar() {
                {/* <span className="text-[10px] sm:text-[11px] font-medium">Cart</span> */}
             </Link>
 
-              <Link to="/wishlist"className="relative hover:scale-105 text-gray-800 hover:text-rose-600 transition-colors">
+              <Link to="/wishlist"className="relative hover:scale-105 text-gray-400 hover:text-rose-700 transition-colors">
                 <Heart size={22} />
 
                 {wishlistCount > 0 && (
