@@ -9,20 +9,20 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="mt-20 bg-linear-to-r from-green-50 via-white to-green-50 border-t border-green-100">
-      <div className="max-w-7xl mx-auto px-5 py-14">
+    <footer className="mt-1 bg-black border-t border-green-100">
+      <div className="max-w-7xl mx-auto px-10 py-14">
         {/* Top */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Logo */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <ShoppingBag className="text-green-500" size={28} />
+              <ShoppingBag className="text-green-500" size={30} />
               <h2 className="text-2xl font-bold text-green-600">
-                SmartBuy
+                BuySmart
               </h2>
             </div>
 
-            <p className="text-gray-600 leading-7">
+            <p className="text-gray-300 leading-7">
               Shop smarter with premium products, secure payments, and
               lightning-fast delivery.
             </p>
@@ -30,9 +30,9 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
 
-            <ul className="space-y-3 text-gray-600">
+            <ul className="space-y-3 text-gray-300">
               <li>
                 <Link
                   to="/"
@@ -75,7 +75,7 @@ function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">Customer Care</h3>
 
-            <ul className="space-y-3 text-gray-600">
+            <ul className="space-y-3 text-gray-300">
               <li className="hover:text-green-500 cursor-pointer transition">
                 Help Center
               </li>
@@ -100,7 +100,7 @@ function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-blue-600 hover:text-white hover:-translate-y-1 transition-all duration-300"
               >
                 <FaFacebookF size={18} />
               </a>
@@ -109,7 +109,7 @@ function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-pink-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
               >
                 <FaInstagram size={18} />
               </a>
@@ -118,7 +118,7 @@ function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-blue-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
               >
                 <FaTwitter size={18} />
               </a>
@@ -127,7 +127,7 @@ function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-black hover:text-white hover:-translate-y-1 transition-all duration-300"
               >
                 <FaGithub size={18} />
               </a>
@@ -140,7 +140,7 @@ function Footer() {
           <p className="text-gray-500 text-sm">
             © 2026{" "}
             <span className="font-semibold text-green-600">
-              SmartBuy
+              BuySmart
             </span>
             . All Rights Reserved.
           </p>

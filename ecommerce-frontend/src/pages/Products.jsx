@@ -3,9 +3,10 @@ import api from "../services/api";
 import ProductCard from "../components/ProductCard";
 // import Loader from "./Loader";
 import FeaturedCategories from "../components/FeaturedCategories";
-import OfferSlider from "../components/OfferSlider";
+// import Offer from "../home/Offer";
 import { X } from "lucide-react";
 import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
+import Offer from "./home/Offer";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -89,6 +90,7 @@ function Products() {
 
   return (
     <>
+    <Offer/>
       {/* Offer Slider - Optional */}
     {/* <OfferSlider/> */}
 

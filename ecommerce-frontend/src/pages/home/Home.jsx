@@ -1,9 +1,9 @@
 // import FeaturedCategories from "../components/FeaturedCategories";
 // import FeaturedProducts from "../components/FeaturedProducts";
-// import OfferSlider from "../components/OfferSlider";
-// import OfferSlider from "../components/OfferSlider";
+
 import CustomerReviews from "./CustomerReviews";
 import Herosection from "./Herosection";
+// import Offer from "./Offer";
 import TopBrands from "./TopBrands";
 import WhyChooseUs from "./WhyChooseUs";
 
@@ -15,7 +15,7 @@ function Home() {
   return (
     <div>
        <Herosection/>
-       {/* <OfferSlider/> */}
+       {/* <Offer/> */}
        {/* <FeaturedCategories/> */}
        {/* <FeaturedProducts/> */}
        <WhyChooseUs/>
