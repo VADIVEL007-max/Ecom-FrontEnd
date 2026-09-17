@@ -61,7 +61,7 @@ function Navbar() {
               S
             </div>
             <span className="text-xl xl:text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent whitespace-nowrap">
-              SmartBuy
+              BuySmart
             </span>
           </Link>
 
@@ -191,10 +191,10 @@ function Navbar() {
 
           <Link to="/" className="flex items-center gap-1.5 flex-shrink-0">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white font-bold text-sm">
-              S
+              BS
             </div>
             <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent whitespace-nowrap">
-              SmartBuy
+              BuySmart
             </span>
           </Link>
 

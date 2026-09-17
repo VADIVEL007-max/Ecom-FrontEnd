@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getWishlist, toggleWishlist } from "../services/wishlistService";
+import { getWishlist } from "../services/wishlistService";
 import ProductCard from "../components/ProductCard";
 // redux tool
 import { useDispatch, useSelector } from "react-redux";
@@ -41,10 +41,10 @@ const handleRemove = (productId) => {
  return (
   <div className="min-h-screen bg-gray-50">
     {/* Header */}
-    {/* <div className="bg-gradient-to-r from-green-200 via-green-200 to-green-100 text-white py-12 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="bg-linear-to-r from-green-200 via-green-200 to-green-100 text-white py-10 shadow-lg">
+      <div className="max-w-7xl mx-auto px-5">
         <h1 className="text-4xl text-black font-bold flex items-center gap-3">
-          ❤️ My Wishlist
+           My Wishlist❤️
         </h1>
 
         <p className="mt-2 text-black text-lg">
@@ -62,7 +62,7 @@ const handleRemove = (productId) => {
           </span>
         </div>
       </div>
-    </div> */}
+    </div>
 
     {/* Body */}
     <div className="max-w-7xl mx-auto px-4 py-10">
